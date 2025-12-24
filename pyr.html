@@ -1,0 +1,602 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>治愈系弹窗 </title>
+    <script>
+        // 325条治愈话语（含阳光鲜花类表情，每条最多重复2次）
+        const messages = [
+            "pyr生日快乐☀️",
+            "嘻嘻嘻，我亲爱的闺蜜，震惊吗🌻",
+            "我的妈呀，我要被我自己感动坏了💐",
+            "hi，祝你成为想成为的那个大人☀️",
+            "我特别想念你✨",
+            "没有去找你，我真的很抱歉啊🌸",
+            "等过年回去打麻将打爆你🌼",
+            "我现在正在上化学课，你在干什么☕",
+            "你可是要好好学习啊，我等着你给我买吃的呢🌙",
+            "你说你过年回去给我买王氏现捞的，别忘了🍂",
+            "我不敢想象你看的这个的样子🚶",
+            "写这个好难啊，我要用几个字表达出深意🌧️",
+            "可以多做一点吃播吗☁️",
+            "一个人吃那么多猕猴桃，也没说给我寄一点过来🍜",
+            "你总是对我说呵呵🌕",
+            "现在会读夏侯惇了吗🎧",
+            "你的vlog为什么只拍了一次🐱",
+            "闺蜜，别天天喝酒🌱",
+            "王者多少星了💨",
+            "元旦和生日都快乐✈️",
+            "2026，我们都要成为更好的大人💡",
+            "我真的特别想你🍰",
+            "我们会一直在的🌈",
+            "我们认识很久很久了💪",
+            "我该这个配什么音乐呢🌟",
+            "每次打游戏，你都说我，你都说服了我了💌",
+            "能不能在骑电动车来接我上学🌸",
+            "马上就要回家了，就能见到你们了🍵",
+            "要相信，我们值得这个世界上最美好的的东西👍",
+            "十九岁了，成熟一点🌬️",
+            "想和你们一起去看日出，肯定会有机会的🌅",
+            "这句有点太腻了，我不知道怎么说出来✨",
+            "多爱自己，对自己好一点☀️",
+            "相信你自己是最棒的🫂",
+            "pyr 生日快乐🌠",
+            "祝你生日快乐☀️",
+            "明年我们就2开头了📖",
+            "生日快乐🌼",
+            "还是多奖励奖励自己吧💫",
+            "别熬夜😌",
+            "多吃饭🍂",
+            "多读书🌙",
+            "少吃零食⏸️",
+            "多睡觉💐",
+            "多看报🌬️",
+            "多喝水🌆",
+            "嘻嘻嘻❤️",
+            "少吃猕猴桃☀️",
+            "大学，过的开心吗🌊",
+            "你到底喜欢什么🌟",
+            "《有光》🍬",
+            "这里面有惊喜，你能发现吗💦",
+            "去成为你想成为的那个大人🌸",
+            "相信相信的力量☁️",
+            "马上就能见面了😊",
+            "你真的像是一个小太阳🌞",
+            "你有点二哈塑🐶",
+            "其实你还挺完美的💖",
+            "不用再装深沉了☀️",
+            "你确实挺可爱的🎶",
+            "换一个炸裂的发色👏",
+            "锐评一下我的惊喜❄️",
+            "这个可以获得你单独的一条朋友圈吗📜",
+            "生日快乐，可爱的rua🚶‍♀️",
+            "今年也是让你赶上了，元旦过生日🌱",
+            "今年少留点眼泪💧",
+            "想看你染蓝色头发💡",
+            "闺蜜，照顾好自己📈",
+            "你那里天气好不好☁️",
+            "2026，对自己好一点💐",
+            "早日单排上王者😴",
+            "多练一点硬辅，带你飞🌬️",
+            "发现惊喜了吗🌟",
+            "别对我说呵呵☕",
+            "可以获得的朋友圈的展示权吗👥",
+            "2025别留任何遗憾🍂",
+            "其实那天我有很多话想对你说💎",
+            "锐评一下，咋样欸🌧️",
+            "生日快乐，rua🎉",
+            "闺蜜 我真的特别想念你 我没去找你 其实我很愧疚啊🌟",
+            "闺蜜 写着的时候 我真的想到了很多想写的事情😊",
+            "龟 其实那天你突然给我发消息的时候 我特别意外🍲",
+            "我还偷偷用过你的吸油纸💨",
+            "我晚五还在你的垃圾袋里扔过垃圾☁️",
+            "我在你的位置上 上过晚五⏱️",
+            "我都不想说你了 天天上课就知道照镜子 茹子都在外面看你了 你还在照镜子🌱",
+            "有个秘密 就是我有个本子 上面全是偷的你的贴纸 一大片🌆",
+            "好想和你badminton📚",
+            "我当时真的很想和你大吵一架 问问你到底为什么💖",
+            "2026年了 你可以爆改吗☀️",
+            "生日快乐🐱",
+            "冷不冷🚶",
+            "回去吃铺盖面 我要吃酸菜肉丝的☁️",
+            "宝宝 猜我在说什么⏳",
+            "闺蜜 不要有厌蠢症 虽然大学只有我们是正常人🎤",
+            "那次买米皮 遇到我 尴不尴尬🌸",
+            "有些时候我真的挺想骂你的🥛",
+            "真的后悔没留在西安了🍲",
+            "回去我们就要开始吃吃吃了🌿",
+            "好想念石泉的草莓糖葫芦 那么贵 你还给我了留一个😊",
+            "五月份抢票 你给cy说借我ipad 我特别感动🌟",
+            "你为什么在回家路上回头看我🌬️",
+            "那天英语课 脖子伸那么长 偷看我手机干嘛💪",
+            "xyh和jsn递纸条 你为什么把纸条捏在手上🌈",
+            "相册里面一翻全是你 全是搞笑视频☀️",
+            "幸好高三 我们都天天带手机📚",
+            "你那次点外卖被茹子看到 笑死我了❤️",
+            "确实也很遗憾 高三最后没有你💐",
+            "气死我了 之前lzf和cyf老是问我 我们咋了🔋",
+            "我们认识多久了🌙",
+            "我到现在忘不了刚见你的时候 黢黑💫",
+            "我跟你咋玩到一起的🍓",
+            "happy birthday rua🍂",
+            "闺蜜 谈恋爱的一定要告诉我哦💖",
+            "闺蜜觉得惊喜咋样诶 特别难啊 好多单词都不认识☀️",
+            "不行 我想到你高二在走廊踢腿了 能踢到cxb头那么高 笑死我了🎶",
+            "你快学一下怎么抢票吧 每次都抢不到👍",
+            "感觉你像是老黄牛 哈哈哈❄️",
+            "真的很想你们🌬️",
+            "记得天天开心😊",
+            "少喝点奶茶🍵",
+            "下次一起看日出🌞",
+            "喜欢什么花💐",
+            "好久没和你一起走路🚶‍♀️",
+            "上次见面，下雨了 🌧️",
+            "多奖励奖励自己🫂",
+            "喜欢看星星吗🌟",
+            "源麦甜很好吃🍰",
+            "更爱自己一点💖",
+            "酱香饼好吃吗🍵",
+            "可以送我一个蜡笔小新的马克杯吗🌞",
+            "你那天晚上买的什么花，来着💐",
+            "走路少玩点手机🚶‍♀️",
+            "桑启二技能是位移，被抓了跑到快的要死 🌧️",
+            "你都不知道桑启有多强🫂",
+            "人鱼之赐以后都要绑在我身上🌟",
+            "小丑鱼的盲盒还在吗🍰",
+            "你到底买了多少小八💖",
+            "真好💦",
+            "今天的月亮，很美🌙",
+            "时间过的真快⏳",
+            "今年我们都很厉害🌬️",
+            "手长冻疮了吗👀",
+            "照顾好自己☀️",
+            "多喝点热水📜",
+            "对自己别太苛刻了💪",
+            "不要天天熬夜🌧️",
+            "天气冷，记得穿厚点👫",
+            "南京的秋天很美🍂",
+            "今年幸福吗💎",
+            "下次见面，穿蓝色，好吗🌧️",
+            "一定要狠狠幸福🎉",
+            "你的眼睛长啥样，来着，有点忘了🌟",
+            "为了测试你是不是认真看了，我得考验你一下，3+6=😊",
+            "现在心情怎么样🍲",
+            "为什么喜欢小八💨",
+            "未来还会留长头发吗☁️",
+            "快忘记你长发啥样子了⏱️",
+            "2026有什么愿望吗🌱",
+            "你现在幸福吗🌆",
+            "有时候真的不想笑你，实在忍不住📚",
+            "不要一直责怪自己💖",
+            "你的笑声是啥样的，来着☀️",
+            "那天很抱歉啊，话说重了🐱",
+            "那天很抱歉啊，话说重了🚶",
+            "我以为不会有以后☁️",
+            "那天很抱歉啊，话说重了⏳",
+            "那天很抱歉啊，话说重了🎤",
+            "为什么能和其他人，好好说话🌸",
+            "不是不来安慰你，我当时再给你留空间🥛",
+            "别说我为自己的行为找借口🍲",
+            "当时说啥，你都不信🌿",
+            "真的不是在找借口😊",
+            "你太高傲了🌟",
+            "我们当时咋就怎么犟呢🌬️",
+            "明明那天中午，我们还一起骑车上学💪",
+            "阴霾散去，得见彩虹🌈",
+            "那个礼物，我真的没想到☀️",
+            "你还是没少关注我啊，连黄子都知道，嘻嘻嘻📚",
+            "我们要一直一直这样好好的❤️",
+            "好好休息，别太累💐",
+            "休息是充电🔋",
+            "好想吃炒馍🌙",
+            "烦死了，当时他们一直问我💫",
+            "为什么和zxm有小群🍓",
+            "做自己🍂",
+            "你现在在做自己吗💖",
+            "我很在意的，只是你没看到☀️",
+            "到这，我已经有点词穷了，不知道写什么了🎶",
+            "好好学习，天天向上👍",
+            "为什么不面对面和我交流❄️",
+            "我当时也挺烦的🌬️",
+            "你猜我为啥叫你202😊",
+            "你真是越来越自恋了☀️",
+            "你和噜噜一样🐱",
+            "有些时候感觉你特别呆🚶",
+            "高中吃的第一碗肠粉，还是你买的☁️",
+            "那天去拿米皮，你也不知道让我一下⏳",
+            "有时候我只是看破不说破，嘻嘻🎤",
+            "感觉王者变得没啥意思了🌸",
+            "你最喜欢玩的王者英雄是谁🥛",
+            "我想喝茶话弄的茯生半日闲，还久没喝过了，我都快忘记是啥味道了🍲",
+            "你那次扔粉笔，都扔到我脸上了🌿",
+            "物理老师之前喊你回答啥问题来着，你站起来没说出来😊",
+            "一定要听这个背景音乐，特别好听🌟",
+            "想看演唱会吗🌬️",
+            "202💪",
+            "我看你一天不得了啊🌈",
+            "以为你不会再用这个耳机了🍵",
+            "想放假🌞",
+            "为什么还不放假，我坚持不住了💐",
+            "想打麻将了🚶",
+            "上次和你打麻将，已经是几百年前的事情了🌧️",
+            "上次打羽毛球，是高二吗🫂",
+            "我想吃瑞希的冒菜🌟",
+            "xyh给你买了四个蛋挞，我和hy两个人才一个🍰",
+            "生日快乐 p💖",
+            "放心吧，闺蜜每一条最多最多重复两遍，保证你看到的每一条都是不一样的💖",
+            "闺蜜，还是挺想你的💦",
+            "谁让你打耳洞的🌙",
+            "我曾经以为时间还长⏳",
+            "一切都是刚刚好🌬️",
+            "我还挺后悔的，你呢👀",
+            "今天南京很冷☀️",
+            "不以物喜📜",
+            "不以己悲💪",
+            "放假给你玩爽了吧🌧️",
+            "谁让你去济南的👫",
+            "语文课和***在最后一排聊的开不开心。。👀",
+            "你给我写的名字呢🍂",
+            "这个也太难写了吧💎",
+            "知道我写了多久吗🌧️",
+            "好几次跟你说话，你都不理我🎉",
+            "都是跟你学的，不去跑操，害我倒了一周的垃圾🌟",
+            "你笑起来，是啥样，我都忘了😊",
+            "为什么要去重庆🍲",
+            "现在知道英语课有群了吗💨",
+            "以后打王者，可以不骂我吗☁️",
+            "辅助不是工具人，记得帮射手提速⏱️",
+            "兵线进塔别a，我卡刀呢🌱",
+            "桑启真的很强🌆", 
+            "打耳洞就算了，还一次打两个，不得了👀",
+            "练好硬辅，带你飞📚",
+            "你喜欢吃猕猴桃吗💖",
+            "我记得你初中不是就打王者吗☀️",
+            "那天，玩狙击外星人，我是让着你的🐱",
+            "抓到羊了吗🚶",
+            "羊了个羊通关几次了☁️",
+            "视频都让你看焦了，还没过关⏳",
+            "下次胃口不好，吃点王氏现捞就好了🎤",
+            "当时牛奶掉你桌子下面，也不知道给我捡一下🌸",
+            "为什么他们可以盖手印🥛",
+            "下雪了吗🍲",
+            "你一定要一直做自己🌿",
+            "记得要天天开心😊",
+            "今天是什么天气🌟",
+            "我们不会在比今天更年轻了🌬️",
+            "你为什么从来不给我打电话💪",
+            "其实走过的每一步，都有意义🌈",
+            "呵呵☀️",
+            "当时为什么不说📚",
+            "我和hy一直回头看你，你看不见吗❤️",
+            "还喝蜜雪冰城吗💐",
+            "越想越好笑🔋",
+            "今天的月亮很圆🌙",
+            "茹子说，越努力越幸运💫",
+            "想吃草莓糖葫芦了🍓",
+            "现在是2025年12月24日，明天就是圣诞节📜",
+            "梧桐树叶落得到处都是🍂",
+            "一直都要做自己💖",
+            "在听什么歌☀️",
+            "成为一个很好的大人🎶",
+            "别哭，会肿👍",
+            "所有出发终将一一抵达❄️",
+            "你的表情太生硬了❄️",
+            "就祝我们热烈自由 顶峰相见🌬️",
+            "去发光😊",
+            "去追风🍵",
+            "希望你永远自信🌞",
+            "rua 生日快乐💐",
+            "每步都有意义🚶",
+            "去尽兴🌧️",
+            "去灿烂年华🫂",
+            "去以梦为马🌟",
+            "我还没说欸，他们当时都在指责我💐",
+            "逆行也会一路生花🍰",
+            "快点去考个驾照吧💖",
+            "现在会吸螺蛳了吗💦",
+            "《遗憾是》🌙",
+            "《间距》⏳",
+            "没法说🌬️",
+            "2026想干什么👀",
+            "nanananananana☀️",
+            "你真的赢了吗📜",
+            "这个程序一万九千字📜",
+            "为什么说自己要赢了💪",
+            "想吃板面，嘻嘻🌧️",
+            "问你在哪，你非要说嘻嘻，说喜喜会怎样👫",
+            "元旦快乐😊",
+            "新年快乐🍲",
+            "现在呢，我正在给你编辑这个程序，我突发奇想给你发个消息，逗你玩一下，结果你又说呵呵，你总是这样，还说了两遍，到时候你肯定又不承认😊",
+            "2026快乐💨",
+            "买个可爱的杯子，多喝点水😌",
+            "祝你快乐，不止生日🍂",
+            "我还记得你初二那次哭的特别伤心🌙",
+            "觉得我这个赛季可以上荣耀吗⏸️",
+            "不要每天睡到自然醒💐",
+            "腰还疼吗🌬️",
+            "腰疼的时候，多注意休息🌆",
+            "多吃点水果，但是别一种吃太多❤️",
+            "其实我不喝热奶茶🍵",
+            "迟早去泰山顶上看日出🌞",
+            "上次给你nian菜，你为什么不要，你把菜给cxb了🚶‍♀️",
+            "今天天气，人工降雨🌧️",
+            "你为什么不吃豆皮，这么美味的东西🫂",
+            "去年生病，我给你搬了那么多书回去。。。🌟",
+            "在学校给你们打包了一堆特产，等着吧🍰",
+            "老可爱是多可爱？？？💖",
+            "猕猴桃吃播要把我笑死了，看一遍笑一遍☀️",
+            "应该有三四百条🌊",
+            "以后不准在我骑车的时候抽烟🍂",
+            "语文课聊的开心吗💎",
+            "我们2025都太牛了🌧️",
+            "多出去走走🎉",
+            "感觉你做事情，都是手忙脚乱的🌟",
+            "为什么偷偷笑我😊",
+            "语文老师当时说你啥来着🍲",
+            "回去打麻将输了，什么惩罚💨",
+            "我以为你无坚不摧☁️",
+            "你那天真的很开心吗⏱️",
+            "你当时在想什么🌱", 
+            "你猜猜一共多少条🌱",
+            "我都忘记当时在想什么了🌆",
+            "全世界的牛都把你拉不回来📚",
+            "你倒是勇往直前了💖",
+            "一把麻将十几张牌☀️",
+            "你猜这个有多少条🐱",
+            "许愿的时候，记得闭眼🚶",
+            "我当时都不知道怎么说☁️",
+            "每次我都特别尴尬⏳",
+            "想听你唱歌🎤",
+            "啥时候给我写名字🌸",
+            "我想吃笋子🥛",
+            "好久没吃火锅了🍲",
+            "笑死我了，那天打乒乓球，和人机打半天，我真的以为是你，我还打不过那个人机🌿",
+            "这个真的是我自己写的哦😊",
+            "你说我什么时间发给你比较呢🌟",
+            "这里面的每一条，我都给你说出来为什么，都不是空穴来风🐱",
+            "三步一呼，三步一吸到底是什么意思🌬️",
+            "闺蜜，大学省下钱了吗💪",
+            "《麒麟》☀️",
+            "少吃点垃圾食品📚",
+            "夏秋皆安❤️",
+            "《可我只是海》💐",
+            "注意身体🔋",
+            "我想吃石泉的塌辣子🌙",
+            "上次生日的火锅我都没吃上💫",
+            "吃不起饭了，怎么办🍓",
+            "好困啊，我想睡觉🍂",
+            "回去先打麻将，还是先吃火锅💖",
+            "想吃了烤肉吗☀️",
+            "你是怎么说的🎶",
+            "那天你为什么抬头，让我特别尴尬",
+            "还记不记得，那次去帮你查卡，余额0.00❄️",
+            "我那天跟你说话，你为什么不理我🌬️",
+            "我都拉你了，你一个眼神都不给我😊",
+            "你就知道拍照，拍拍拍🍵",
+            "还好我们都还很年轻🌞",
+            "幸好才十九岁💐",
+            "我的妈呀，时间过得真快🚶",
+            "你现在如愿以偿了吗❤️",
+            "大学好玩吗💐",
+            "这么就没见过你了，你变化大不大🔋",
+            "你总是让我很尴尬🌙",
+            "枝繁叶茂，山花绽放💫",
+            "很久没有说过石泉话了🍓",
+            "想吃什么你🍂",
+            "我们都要一直很坚定💖",
+        ];
+
+        // 马卡龙色系弹窗（保持不变）
+        const colors = [
+            "#FFEEEE", "#EEFFEE", "#EEEEFF", "#FFF8E1", "#E8F5E9",
+            "#FFECB3", "#C8E6C9", "#BBDEFB", "#C5CAE9", "#D1C4E9",
+            "#F8BBD0", "#FFCDD2", "#B2EBF2", "#FFE0B2", "#E0F7FA",
+            "#F3E5F5", "#FBE9E7", "#E6F7FF", "#FFF3E0", "#F0F4C3"
+        ];
+
+        // 动画配置（保持不变）
+        const animationConfig = {
+            duration: 1200,
+            timingFunction: 'linear',
+            exitDuration: 1000
+        };
+
+        // 弹窗函数（增大尺寸）
+        function showMessage(timingOffset = 0) {
+            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            const popup = document.createElement("div");
+            popup.style.position = "fixed";
+            popup.style.padding = "28px 36px";
+            popup.style.borderRadius = "12px";
+            popup.style.boxShadow = "0 3px 15px rgba(0,0,0,0.12)";
+            popup.style.backgroundColor = randomColor;
+            popup.style.color = "#333";
+            popup.style.fontSize = "22px";
+            popup.style.fontFamily = "Microsoft YaHei, 微软雅黑, PingFang SC, sans-serif";
+            popup.style.zIndex = "1000";
+            popup.style.maxWidth = "380px";
+            popup.style.textAlign = "center";
+            popup.style.wordBreak = "break-word";
+            popup.innerText = randomMsg;
+            
+            popup.style.opacity = "0";
+            popup.style.transform = "scale(0.8)";
+            popup.style.transition = `all ${animationConfig.duration}ms ${animationConfig.timingFunction} ${timingOffset}ms`;
+            
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            
+            let left;
+            const random = Math.random();
+            if (random < 0.35) {
+                left = windowWidth * 0.2 + Math.random() * windowWidth * 0.2;
+            } else if (random < 0.7) {
+                left = windowWidth * 0.6 + Math.random() * windowWidth * 0.2;
+            } else {
+                left = windowWidth * 0.4 + Math.random() * windowWidth * 0.2;
+            }
+            
+            const top = windowHeight * 0.1 + Math.random() * windowHeight * 0.8;
+            popup.style.left = `${left - 190}px`;
+            popup.style.top = `${top - 65}px`;
+            
+            document.body.appendChild(popup);
+            
+            setTimeout(() => {
+                popup.style.opacity = "1";
+                popup.style.transform = "scale(1)";
+            }, 50);
+            
+            setTimeout(() => {
+                popup.style.opacity = "0";
+                popup.style.transform = "scale(0.8)";
+                setTimeout(() => popup.remove(), animationConfig.exitDuration);
+            }, 18000);
+        }
+
+        // 小黄鸭播放器核心功能
+        function initDuckPlayer() {
+            // 创建音频元素
+            const audio = document.createElement('audio');
+            audio.id = 'healingMusic';
+            audio.loop = true; // 循环播放
+            audio.volume = 0.4; // 默认音量40%
+            audio.preload = 'auto';
+
+            // 音频链接
+            const audioUrl = "https://ft.wzznft.com/i/2025/12/24/daa5ah.mp3";
+            const source = document.createElement('source');
+            source.src = audioUrl;
+            source.type = 'audio/mpeg';
+            audio.appendChild(source);
+            document.body.appendChild(audio);
+
+            // 创建播放器容器（马卡龙蓝底色）
+            const playerContainer = document.createElement('div');
+            playerContainer.style.position = 'fixed';
+            playerContainer.style.bottom = '30px';
+            playerContainer.style.left = '50%';
+            playerContainer.style.transform = 'translateX(-50%)';
+            playerContainer.style.display = 'flex';
+            playerContainer.style.alignItems = 'center';
+            playerContainer.style.gap = '15px';
+            playerContainer.style.padding = '12px 25px';
+            playerContainer.style.backgroundColor = '#BBDEFB'; // 马卡龙蓝
+            playerContainer.style.borderRadius = '50px';
+            playerContainer.style.boxShadow = '0 4px 18px rgba(0,0,0,0.15)';
+            playerContainer.style.zIndex = '1001';
+            playerContainer.style.cursor = 'pointer';
+
+            // 小黄鸭图标（动态摇摆）
+            const duckIcon = document.createElement('div');
+            duckIcon.style.fontSize = '40px';
+            duckIcon.innerText = '🐥';
+            duckIcon.style.animation = 'duckSwing 2s infinite ease-in-out';
+            playerContainer.appendChild(duckIcon);
+
+            // 播放/暂停按钮（马卡龙粉）
+            const controlBtn = document.createElement('button');
+            controlBtn.innerText = '播放音乐';
+            controlBtn.style.border = 'none';
+            controlBtn.style.padding = '8px 20px';
+            controlBtn.style.borderRadius = '30px';
+            controlBtn.style.backgroundColor = '#FFCDD2'; // 马卡龙粉
+            controlBtn.style.color = '#333';
+            controlBtn.style.fontSize = '16px';
+            controlBtn.style.fontWeight = 'bold';
+            controlBtn.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+            controlBtn.style.cursor = 'pointer';
+            controlBtn.style.transition = 'all 0.3s ease';
+            playerContainer.appendChild(controlBtn);
+
+            // 音量调节滑块（马卡龙黄）
+            const volumeSlider = document.createElement('input');
+            volumeSlider.type = 'range';
+            volumeSlider.min = '0';
+            volumeSlider.max = '1';
+            volumeSlider.step = '0.1';
+            volumeSlider.value = '0.4';
+            volumeSlider.style.width = '80px';
+            volumeSlider.style.height = '6px';
+            volumeSlider.style.borderRadius = '3px';
+            volumeSlider.style.backgroundColor = '#FFECB3'; // 马卡龙黄
+            volumeSlider.style.outline = 'none';
+            volumeSlider.style.appearance = 'none';
+            // 滑块样式优化
+            volumeSlider.style.webkitAppearance = 'none';
+            volumeSlider.oninput = function() {
+                audio.volume = this.value;
+            };
+            playerContainer.appendChild(volumeSlider);
+
+            // 播放器交互逻辑
+            controlBtn.addEventListener('click', function() {
+                if (audio.paused) {
+                    audio.play().catch(e => {
+                        alert('✨ 请点击允许播放音乐，开启治愈时光～');
+                    });
+                    this.innerText = '暂停音乐';
+                    duckIcon.style.animation = 'duckSwing 1s infinite ease-in-out'; // 播放时加速摇摆
+                } else {
+                    audio.pause();
+                    this.innerText = '播放音乐';
+                    duckIcon.style.animation = 'duckSwing 2s infinite ease-in-out'; // 暂停时减速摇摆
+                }
+            });
+
+            // 点击播放器整体也能控制播放/暂停
+            playerContainer.addEventListener('click', function(e) {
+                if (e.target !== controlBtn && e.target !== volumeSlider) {
+                    controlBtn.click();
+                }
+            });
+
+            // 添加摇摆动画样式
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes duckSwing {
+                    0% { transform: rotate(-5deg); }
+                    50% { transform: rotate(5deg); }
+                    100% { transform: rotate(-5deg); }
+                }
+                button:hover {
+                    transform: scale(1.05);
+                    background-color: #F8BBD0 !important;
+                }
+                input[type="range"]::-webkit-slider-thumb {
+                    -webkit-appearance: none;
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 50%;
+                    background: #FF9EBB;
+                    cursor: pointer;
+                    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+                }
+            `;
+            document.head.appendChild(style);
+
+            document.body.appendChild(playerContainer);
+        }
+
+        // 页面加载初始化
+        window.onload = function() {
+            // 初始化播放器
+            initDuckPlayer();
+            
+            // 初始化弹窗（调整为500条）
+            const totalPopups = 500;
+            const interval = 400;
+            for(let i = 0; i < totalPopups; i++) {
+                const offset = i * interval;
+                setTimeout(() => showMessage(0), offset);
+            }
+            setInterval(() => showMessage(100), interval * 2);
+        };
+    </script>
+</head>
+<body style="margin:0;background:#fff0f0;overflow:hidden;">
+</body>
+</html>
